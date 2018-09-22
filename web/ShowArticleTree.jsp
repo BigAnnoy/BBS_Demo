@@ -15,7 +15,7 @@
         ResultSet rs = null;
         String preStr = "";
         for(int i=0;i<level;i++){
-            preStr +="----";
+            preStr +="----";1
         }
         try {
             stat = conn.createStatement();
