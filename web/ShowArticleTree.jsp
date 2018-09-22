@@ -16,7 +16,7 @@
         String preStr = "";
         for(int i=0;i<level;i++){
             preStr +="----";
-        }1
+        }
         try {
             stat = conn.createStatement();
             String sql = "select * from article where pid = "+ id;
