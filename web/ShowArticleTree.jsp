@@ -15,7 +15,7 @@
         ResultSet rs = null;
         String preStr = "";
         for(int i=0;i<level;i++){
-            preStr +="----";
+            preStr +="---";
         }
         try {
             stat = conn.createStatement();
@@ -53,6 +53,7 @@
             tree(rs.getInt("id"),conn,1);
         }
     }
+    rs.close();
     statement.close();
     conn.close();
 %>
@@ -63,6 +64,7 @@
 <body>
     <table border="1">
         <%=str%>
+        <%str="";%>
     </table>
 
 

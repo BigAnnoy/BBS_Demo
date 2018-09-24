@@ -44,6 +44,8 @@
     </table>
 
 <%}
+
+    rs.close();
     statement.close();
     conn.close();
 %>
