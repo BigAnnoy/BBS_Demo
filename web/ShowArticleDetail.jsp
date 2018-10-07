@@ -43,13 +43,15 @@
 
     </table>
 
-<%}
+<%}%>
 
+<a href="replay.jsp?id=<%=rs.getInt("id")%>&rootid=<%=rs.getInt("rootid")%>" >回复
+</a>
+
+<%
     rs.close();
     statement.close();
     conn.close();
 %>
-
-
 </body>
 </html>

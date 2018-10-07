@@ -7,8 +7,14 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import =" java.sql.*"%>
+<%
+    String admin = (String)session.getAttribute("admin");
 
-<%!
+    if(admin!=null&&admin.equals("true")){
+        login = true;
+    }
+%>
+<%! boolean login = false;
     String str = "";
     private void tree(int id,Connection conn, int level){
         Statement stat = null;
@@ -21,9 +27,15 @@
             stat = conn.createStatement();
             String sql = "select * from article where pid = "+ id;
             rs = stat.executeQuery(sql);
+            String strLogin ="";
             while (rs.next()){
+                if(login){
+                    strLogin="<td><a href = 'Delete.jsp?id="+rs.getInt("id")+"&pid="+rs.getInt("pid")+"'>删除</a></td>";
+                }
                 str += "<tr><td>"+rs.getInt("id")+"</td><td>"+
-                        preStr+"<a href='ShowArticleDetail.jsp?id="+rs.getInt("id")+"'>"+rs.getString("cont")+"</a>"+"</td></tr>";
+                        preStr+"<a href='ShowArticleDetail.jsp?id="+rs.getInt("id")+"'>"+rs.getString("title")+"</a>"+
+                        "</td>"+strLogin+
+                        "</tr>";
                 if(rs.getInt("isleaf")!=0){
                     tree(rs.getInt("id"),conn,level+1);
                 }
@@ -40,15 +52,20 @@
         }
     }
 %>
-<%
 
+<%
     Class.forName("com.mysql.jdbc.Driver");
     Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/BBS_Demo","root","13141516");
     Statement statement = conn.createStatement();
     ResultSet rs = statement.executeQuery("SELECT * from  article where pid = 0");
+    String strLogin="";
     while (rs.next()){
+        if(login){
+             strLogin="<td><a href = 'Delete.jsp?id="+rs.getInt("id")+"&pid="+rs.getInt("pid")+"'>删除</a></td>";
+    }
         str += "<tr><td>"+rs.getInt("id")+"</td><td>"+
-                "<a href='ShowArticleDetail.jsp?id="+rs.getInt("id")+"'>"+rs.getString("title")+"</a>"+"</td></tr>";
+                "<a href='ShowArticleDetail.jsp?id="+rs.getInt("id")+"'>"+rs.getString("title")+"</a>"+
+                "</td>"+strLogin+"</tr>";
         if(rs.getInt("isleaf")!=0){
             tree(rs.getInt("id"),conn,1);
         }
@@ -61,15 +78,18 @@
 <head>
     <title>ShowArticleTree</title>
 </head>
+
 <body>
+<a href="login.jsp">用户登录</a>
+<a href="Post.jsp">发帖</a>
     <table border="1">
         <%=str%>
-        <%str="";%>
     </table>
 
 
 
 </body>
-
-<% conn.close();%>
+<%str="";
+login=false;
+%>
 </html>
