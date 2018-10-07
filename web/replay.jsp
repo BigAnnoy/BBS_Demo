@@ -19,7 +19,7 @@
     <title>回复</title>
 </head>
 <body>
-    <form action="replayOK.jsp" method="post">
+    <form name="replay" action="replayOK.jsp" method="post" onsubmit="return check()">
         <input type="hidden" name="id" value="<%=id%>">
         <input type="hidden" name="rootid" value="<%=rootId%>">
         <table border="1">
